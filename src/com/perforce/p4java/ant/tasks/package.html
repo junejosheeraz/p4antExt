@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+</head>
+<body bgcolor="white">
+<p>
+The Perforce tasks implement Perforce commands using the Perforce Java API.
+The tasks are intended for build automation with Ant. <b>Note:</b> These tasks
+are known to work with P4Java 2010.1, JDK 6 and Ant 1.7.0.
+<p>The following are some of the capabilities of the Perforce tasks:
+<ul>
+    <li>Get and processe lists of depot, client, and local files inthe
+    Perforce client workspace, through the IServer and IClient interfaces.
+    </li>
+    <li>Add, edit, or delete files in the local Perforce client
+    workspace using the IClient interface. These files are added to the
+    default or a numbered Perforce changelist represented by one or more
+    IChangeList interfaces, which are obtained through the IClient or
+    IServer interfaces.</li>
+    <li>Submit a specific changelist using the associated IChangeList
+    interface. This submission can be linked with one or more Perforce
+    jobs, represented by the IJob interface.</li>
+    <li>Browse Perforce jobs and changelists, server side diffs of
+    files, create labels, create tags, set counters, grep and revert files
+    using the relevant IServer or IClient interfaces.</li>
+    <li>Dump detail file info.</li>
+    <li>Lock and unlock files.</li>
+    <li>Shelve and unshelve files to and from the Perforce server.</li>
+</ul>
+<p>
+@see <a href="http://ant.apache.org/">Ant Project</a>
+@see <a href="http://www.perforce.com/">Perforce</a>
+@see com.perforce.p4java.ant.tasks.SyncTask
+@see com.perforce.p4java.ant.tasks.ChangeTask
+@see com.perforce.p4java.ant.tasks.EditTask
+@see com.perforce.p4java.ant.tasks.SubmitTask
+@see com.perforce.p4java.ant.tasks.HaveTask
+@see com.perforce.p4java.ant.tasks.LabelTask
+@see com.perforce.p4java.ant.tasks.LabelsyncTask
+@see com.perforce.p4java.ant.tasks.CounterTask
+@see com.perforce.p4java.ant.tasks.ReopenTask
+@see com.perforce.p4java.ant.tasks.RevertTask
+@see com.perforce.p4java.ant.tasks.AddTask
+@see com.perforce.p4java.ant.tasks.DeleteTask
+@see com.perforce.p4java.ant.tasks.IntegrateTask
+@see com.perforce.p4java.ant.tasks.ResolveTask
+@see com.perforce.p4java.ant.tasks.FstatTask
+@see com.perforce.p4java.ant.tasks.ChangesTask
+@see com.perforce.p4java.ant.tasks.Diff2Task
+@see com.perforce.p4java.ant.tasks.FilesTask
+@see com.perforce.p4java.ant.tasks.FixTask
+@see com.perforce.p4java.ant.tasks.GrepTask
+@see com.perforce.p4java.ant.tasks.JobTask
+@see com.perforce.p4java.ant.tasks.JobsTask
+@see com.perforce.p4java.ant.tasks.LockTask
+@see com.perforce.p4java.ant.tasks.UnlockTask
+@see com.perforce.p4java.ant.tasks.MoveTask
+@see com.perforce.p4java.ant.tasks.ShelveTask
+@see com.perforce.p4java.ant.tasks.UnshelveTask
+@see com.perforce.p4java.ant.tasks.TagTask
+<p>
+@author <a href="mailto:support@perforce.com">Perforce Support</a>
+</body>
+</html>

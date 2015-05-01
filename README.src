@@ -1,0 +1,31 @@
+P4Ant tasks implement Perforce commands using the Perforce Java API. These tasks
+are intended for build automation with Ant. Note: These tasks are known to work
+with the following requirements:
+
+Perforce Java API 2010.1+
+Perforce server 2005.2+
+Apache Ant 1.7.0+
+JDK 1.5.0+.
+
+Please read the "BUILD.txt" in this directory for information on building the
+P4Ant tasks.
+
+Please read the "INSTALL.txt" in this directory for information on installation,
+and example Ant scripts with imported P4Ant tasks.
+
+The content of this directory:
+
+README.src                  This file
+BUILD.txt                   Build instructions
+INSTALL.txt                 Installation instructions
+LICENSE.txt                 Licensing terms
+
+p4java-[version].jar        Perforce JAVA API
+
+src/                        Perforce ANT tasks source code
+build.xml                   Perforce ANT tasks build script
+build.properties            Perforce ANT tasks build properties
+
+docs/manual/p4tasks.html    User Guide
+docs/manual/p4style.css     User Guide Style Sheet
+docs/javadoc/               Javadoc

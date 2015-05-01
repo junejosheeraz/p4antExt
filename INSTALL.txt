@@ -1,0 +1,77 @@
+P4Ant installation instructions:
+
+Prerequisites:
+
+1. Perforce Java API 2010.1+
+2. Perforce server 2005.2+
+3. Apache Ant 1.7.0+
+4. JDK 1.5.0+
+
+Assumptions:
+
+Since you are reading this document we assume you have done the following:
+
+1. Downloaded the Perforce Ant tasks zip file from Perforce.
+2. Unzipped the content into a directory (i.e. ${user.home}/p4ant).
+
+Installation:
+
+1. Create an Ant script as you would normally do.
+
+2. Import the P4Ant tasks into your Ant script.
+
+3. Add a P4Ant task to the Ant script's target.
+
+4. Run the Ant script as you would normally do.
+
+    Example:
+
+    Create an Ant script (XML) named "p4ant-job.xml" with the following content.
+    Replace the classpath of the P4Java and P4Ant JAR files with the path of
+    your own PAnt tasks installation. Also, replace the variable values with
+    your own Perforce settings. For examples, "port", "user", "passwd", etc.
+
+    <project name="p4ant-job" default="p4tasktest" basedir=".">
+        <description>
+            Perforce task test
+        </description>
+
+        <!-- import external properties file -->
+        <property file="p4ant_local.properties" />
+        <property file="p4ant.properties" />
+
+        <!-- set global properties for this build -->
+        <property name="src" location="src" />
+        <property name="lib" location="lib" />
+        <property name="build" location="build" />
+        <property name="dist" location="dist" />
+
+        <taskdef resource="com/perforce/p4java/ant/tasks/P4Tasks.properties"
+            classpath="${user.home}/p4ant/p4ant-2010.1.263572.jar:
+                       ${user.home}/p4ant/p4java-2010.1.263582.jar" />
+
+        <target name="p4tasktest" description="Perforce task test">
+            <p4jjob
+                port="myperforce:1666"
+                user="myp4user"
+                passwd="myp4passwd"
+                client="myp4user-mac"
+                name="job000686">
+
+                <field name="Description" value="Java test bug" />
+                <field name="Status" value="close" />
+            </p4jjob>
+        </target>
+
+    </project>
+
+    Run the above script with the command: "ant -f p4ant-job.xml"
+
+User Documentation:
+
+Please see the PAnt tasks user guide for comprehensive description and usage
+examples of each task at "docs/manual/p4tasks.html"
+
+Developer Documentation:
+
+Please see the PAnt tasks Javadoc at "docs/javadoc".

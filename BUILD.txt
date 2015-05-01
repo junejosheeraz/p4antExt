@@ -1,0 +1,32 @@
+P4Ant build instructions:
+
+Prerequisites:
+
+1. Perforce Java API 2010.1+
+2. Perforce server 2005.2+
+3. Apache Ant 1.7.0+
+4. JDK 1.5.0+
+
+Assumptions:
+
+Since you are reading this document we assume you have done the following:
+
+1. Downloaded the Perforce Ant tasks source zip file from Perforce.
+2. Unzipped the content into a directory (i.e. /home/username/p4ant).
+
+Ant Build:
+
+1. Modified the "build.properties" to update and add properties.
+
+2. Run the build script: "ant -f build.xml"
+
+3. The build produces a P4Ant JAR file "p4ant-[DATESTAMP].jar" in the P4Ant base
+   directory (i.e. /home/username/p4ant).
+
+Maven Build:
+
+1. Run the command 'mvn clean install'
+
+2. The build produces a P4Ant JAR file "p4antExt-[VERSION].jar" in the P4Ant base
+   directory (i.e. /home/username/p4ant/target).
+ 

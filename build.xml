@@ -1,0 +1,58 @@
+<project name="P4Ant" default="dist" basedir=".">
+	<description>
+        P4Ant build file
+    </description>
+
+	<!-- import external properties file -->
+    <property file="build_local.properties" />
+	<property file="build.properties" />
+
+	<!-- set global properties for this build -->
+	<property name="src" location="src" />
+	<property name="lib" location="lib" />
+	<property name="build" location="build" />
+	<property name="dist" location="dist" />
+
+	<target name="prepare">
+		<!-- Create the time stamp -->
+		<tstamp />
+		<!-- Create the build directory structure used by compile -->
+		<mkdir dir="${build}" />
+		<!-- Create the distribution directory -->
+		<mkdir dir="${dist}" />
+	</target>
+
+	<target name="compile" depends="clean,prepare" description="compile the source">
+		<!-- Compile the java code from ${src} into ${build} -->
+		<javac srcdir="${src}" destdir="${build}" debug="${javac.debug}" target="${javac.target}">
+			<classpath>
+				<fileset dir="${lib}" erroronmissingdir="false">
+					<include name="**/*.jar" />
+				</fileset>
+                <fileset dir="${basedir}">
+                    <include name="p4java*.jar" />
+                </fileset>
+				<pathelement location="${extra.path}" />
+			</classpath>
+		</javac>
+		<copy todir="${build}">
+			<fileset dir="${src}">
+				<include name="**/*.properties" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="dist" depends="compile" description="generate the distribution">
+		<!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
+		<jar destfile="${dist}/p4ant-${DSTAMP}.jar">
+			<fileset dir="${build}"/>
+		</jar>
+        <copy file="${dist}/p4ant-${DSTAMP}.jar" tofile="${basedir}/p4ant-${DSTAMP}.jar" overwrite="true"/>
+	</target>
+
+	<target name="clean" description="clean up">
+		<!-- Delete the ${build} and ${dist} directory trees -->
+		<delete dir="${build}" />
+		<delete dir="${dist}" />
+	</target>
+</project>

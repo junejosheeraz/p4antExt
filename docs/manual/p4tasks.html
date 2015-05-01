@@ -1,0 +1,3019 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="p4style.css">
+<title>P4Ant Tasks</title>
+</head>
+<body>
+<h1>P4Ant User Guide</h1>
+<p>by</p>
+<ul>
+  <li>Perforce Support (<a href="mailto:support@perforce.com">support@perforce.com</a>)</li>
+</ul>
+<hr>
+<h2>Contents</h2>
+<ul>
+  <li><a href="#intro">Introduction</a></li>
+  <li><a href="#tasks">The Tasks</a></li>
+  <li><a href="#changes">Change History</a></li>
+</ul>
+<br>
+<h2><a name="intro">Introduction</a></h2>
+<p>The Apache Ant project currently provides a set of Perforce Tasks
+based on work by Les Hughes, Kirk Wylie, Matt Bishop and Antoine
+Levy-Lambert. We would like to acknowledge this work and thank the
+Apache Foundation and these dedicated developers for supporting Perforce
+users over the years. The P4Ant project is based on the P4Java API and
+as a result it is self-contained and does not require any third-party
+libraries or the Perforce command-line client. This integration supports
+many additional features including shelving and is distributed in both
+binary and source forms.</p>
+<p>The P4Ant tasks implement <a href="http://www.perforce.com"
+  target="_top">Perforce</a> commands using the Perforce Java API. These
+tasks are intended for build automation with Ant.</p>
+
+<p><b>Note:</b> The P4Ant tasks are known to work with P4Java
+2010.1+ (Perforce Java API), JDK 1.5.0+ and Ant 1.7.0+.</p>
+
+<h2><a name="tasks">The Tasks</a></h2>
+
+<table border="0" cellspacing="0" cellpadding="3">
+  <tr>
+    <td><b>Task</b></td>
+    <td><b>Description</b></td>
+  </tr>
+  <tr>
+    <td><a href="#p4jadd">P4JAdd</a></td>
+    <td>Open new files to add to the depot.</td>
+  </tr>
+  <tr>
+    <td><a href="#p4jchange">P4JChange</a></td>
+    <td>Create or edit a changelist description.</td>
+  </tr>
+  <tr>
+    <td><a href="#p4jchanges">P4JChanges</a></td>
+    <td>Display a list of pending and submitted changelists.</td>
+  </tr>
+  <tr>
+    <td><a href="#p4jcounter">P4JCounter</a></td>
+    <td>Display, set, or delete a counter.</td>
+  </tr>
+  <tr>
+    <td><a href="#p4jdelete">P4JDelete</a></td>
+    <td>Open an existing file to delete it from the depot.</td>
+  </tr>
+  <tr>
+    <td><a href="#p4jdiff2">P4JDiff2</a></td>
+    <td>Display diff (server side) of two depot files on the server.</td>
+  </tr>
+  <tr>
+    <td><a href="#p4jedit">P4JEdit</a></td>
+    <td>Open existing files for edit.</td>
+  </tr>
+  <tr>
+    <td><a href="#p4jfiles">P4JFiles</a></td>
+    <td>List files in the depot.</td>
+  </tr>
+  <tr>
+    <td><a href="#p4jfix">P4JFix</a></td>
+    <td>Mark jobs as being fixed by a changelist number.</td>
+  </tr>
+  <tr>
+    <td><a href="#p4jfstat">P4JFstat</a></td>
+    <td>Dump file info in the depot without accessing their contents.</td>
+  </tr>
+  <tr>
+    <td><a href="#p4jgrep">P4JGrep</a></td>
+    <td>Print lines in files that match a pattern.</td>
+  </tr>
+  <tr>
+    <td><a href="#p4jhave">P4JHave</a></td>
+    <td>List files and revisions that have been synced to the client
+    workspace.</td>
+  </tr>
+  <tr>
+    <td><a href="#p4jintegrate">P4JIntegrate</a></td>
+    <td>Stage change propagation from source files to target files.</td>
+  </tr>
+  <tr>
+    <td><a href="#p4jjob">P4JJob</a></td>
+    <td>Create or edit a job specification.</td>
+  </tr>
+  <tr>
+    <td><a href="#p4jjobs">P4JJobs</a></td>
+    <td>Display list of jobs.</td>
+  </tr>
+  <tr>
+    <td><a href="#p4jlabel">P4JLabel</a></td>
+    <td>Create a new label specification or edit an existing label
+    specification.</td>
+  </tr>
+  <tr>
+    <td><a href="#p4jlabelsync">P4JLabelsync</a></td>
+    <td>Synchronize a label with the contents of the current client
+    workspace.</td>
+  </tr>
+  <tr>
+    <td><a href="#p4jlock">P4JLock</a></td>
+    <td>Lock opened files against changelist submission.</td>
+  </tr>
+  <tr>
+    <td><a href="#p4jmove">P4JMove</a></td>
+    <td>Move files from one location to another.</td>
+  </tr>
+  <tr>
+    <td><a href="#p4jreopen">P4JReopen</a></td>
+    <td>Move opened files between changelists or change the files'
+    type.</td>
+  </tr>
+  <tr>
+    <td><a href="#p4jresolve">P4JResolve</a></td>
+    <td>Resolve conflicts between file revisions.</td>
+  </tr>
+  <tr>
+    <td><a href="#p4jrevert">P4JRevert</a></td>
+    <td>Discard changes from opened files.</td>
+  </tr>
+  <tr>
+    <td><a href="#p4jshelve">P4JShelve</a></td>
+    <td>Store files from a pending changelist in the depot, without
+    submitting them.</td>
+  </tr>
+  <tr>
+    <td><a href="#p4jsubmit">P4JSubmit</a></td>
+    <td>Commits a pending changelist of changes made to open files to
+    the depot.</td>
+  </tr>
+  <tr>
+    <td><a href="#p4jsync">P4JSync</a></td>
+    <td>Synchronize files from the depot into the client workspace.</td>
+  </tr>
+  <tr>
+    <td><a href="#p4jtag">P4JTag</a></td>
+    <td>Tag files with a label.</td>
+  </tr>
+  <tr>
+    <td><a href="#p4junlock">P4JUnlock</a></td>
+    <td>Release the lock on a file but leave the file open.</td>
+  </tr>
+  <tr>
+    <td><a href="#p4junshelve">P4JUnshelve</a></td>
+    <td>Restore shelved files from a pending change into the client
+    workspace.</td>
+  </tr>
+</table>
+
+<h3>General Properties</h3>
+<p>P4Ant tasks require some basic properties. These settings are
+respectively retrieved through individual attributes, project-wide
+properties and environment variables.</p>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Property</b></td>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Environment Variable</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td align="center" valign="top"><b>Default</b></td>
+  </tr>
+  <tr>
+    <td valign="top">p4.port</td>
+    <td valign="top">port</td>
+    <td valign="top">P4PORT</td>
+    <td valign="top">Perforce server host and port number on which it
+    listens. Example, myp4server:1666</td>
+    <td valign="top">Yes</td>
+    <td valign="top">perforce:1666</td>
+  </tr>
+  <tr>
+    <td valign="top">p4.user</td>
+    <td valign="top">user</td>
+    <td valign="top">P4USER</td>
+    <td valign="top">Perforce user name.</td>
+    <td valign="top">Yes</td>
+    <td valign="top">User name on the host machine.</td>
+  </tr>
+  <tr>
+    <td valign="top">p4.passwd</td>
+    <td valign="top">passwd</td>
+    <td valign="top">P4PASSWD</td>
+    <td valign="top">Perforce user password.</td>
+    <td valign="top">No</td>
+    <td valign="top"></td>
+  </tr>
+  <tr>
+    <td valign="top">p4.client</td>
+    <td valign="top">client</td>
+    <td valign="top">P4CLIENT</td>
+    <td valign="top">Perforce client workspace.</td>
+    <td valign="top">Yes</td>
+    <td valign="top">Name of host machine.</td>
+  </tr>
+  <tr>
+    <td valign="top" align="center">--</td>
+    <td valign="top">files</td>
+    <td valign="top" align="center">--</td>
+    <td valign="top">File and revision specifiers separated by space.
+    If the path contains whitespace, it must be double-quoted.<br>
+    Local syntax: /staff/user/usercws/file.c@userlabel<br>
+    Depot syntax: //depot/source/module/file.c#8<br>
+    Depot syntax: //depot/source/module/...<br>
+    Client syntax: //usercws/file.c#have</td>
+    <td valign="top">No</td>
+    <td valign="top"></td>
+  </tr>
+  <tr>
+    <td valign="top" align="center">--</td>
+    <td valign="top">file</td>
+    <td valign="top" align="center">--</td>
+    <td valign="top">Nested file and revision specifiers.</td>
+    <td valign="top">No</td>
+    <td valign="top"></td>
+  </tr>
+  <tr>
+    <td valign="top" align="center">--</td>
+    <td valign="top">fileset</td>
+    <td valign="top" align="center">--</td>
+    <td valign="top">Files found in a directory tree starting in a
+    base directory and are matched by patterns.</td>
+    <td valign="top">No</td>
+    <td valign="top"></td>
+  </tr>
+  <tr>
+    <td valign="top" align="center">--</td>
+    <td valign="top">fields</td>
+    <td valign="top" align="center">--</td>
+    <td valign="top">Nested name-value pair fields for Perforce
+    specifications, such as job spec.</td>
+    <td valign="top">No</td>
+    <td valign="top"></td>
+  </tr>
+</table>
+
+<p>Additionally, the following are general attributes you can
+specify. Many of the above properties can also be set using the
+"globaloption" attribute below.</p>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td align="center" valign="top"><b>Default</b></td>
+  </tr>
+  <tr>
+    <td valign="top">failonerror</td>
+    <td valign="top">Specifies whether to stop the build (<code>true</code>|<code>yes</code>|<code>on</code>)
+    or keep going (<code>false</code>|<code>no</code>|<code>off</code>) if
+    an error is returned from Perforce.</td>
+    <td valign="top">No</td>
+    <td valign="top">true</td>
+  </tr>
+  <tr>
+    <td valign="top">globaloption</td>
+    <td valign="top">Nested key-value pair global options for
+    Perforce server. Note: these global options will override the local
+    attributes. For example, &lt;globaloption key="password"
+    value="myp4passwd" /&gt; will override the local "passwd" attribute's
+    value.<br>
+    See the <a
+      href="http://www.perforce.com/perforce/doc.current/manuals/p4java-javadoc/constant-values.html#com.perforce.p4java.PropertyDefs"
+      target="_top">Constant Field Values</a> of the
+    "com.perforce.p4java.PropertyDefs" class for property keys.</td>
+    <td valign="top">No</td>
+    <td valign="top"></td>
+  </tr>
+</table>
+
+<p>Defining your own Perforce server protocol-specific and usage
+properties files. Note: please consult Perforce support for details.</p>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td align="center" valign="top"><b>Default</b></td>
+  </tr>
+  <tr>
+    <td valign="top">protocolpropertiesfile</td>
+    <td valign="top">Specifies the location of the Perforce server
+    protocol-specific properties file. Note that these properties are
+    potentially accessed for each command.</td>
+    <td valign="top">No</td>
+    <td valign="top"></td>
+  </tr>
+  <tr>
+    <td valign="top">usagepropertiesfile<br>
+    </td>
+    <td valign="top">Specifies the location of the Perforce server
+    usage properties file. Note that these properties are potentially
+    accessed for each command.</td>
+    <td valign="top">No</td>
+    <td valign="top"></td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Environment Variables:</p>
+<p>(UNIX csh)</p>
+<pre>setenv P4PORT myp4server:1666</pre>
+<p>(UNIX sh, bash, etc.)</p>
+<pre>P4USER=myp4user; export P4USER</pre>
+<p>Project Properties:</p>
+<pre>&lt;property name=&quot;p4.client&quot; value=&quot;myp4clientws&quot;/&gt;</pre>
+<p>Task Attributes:</p>
+<pre>
+&lt;p4[command]
+    port=&quot;myp4server:1666&quot;
+    user=&quot;myp4user&quot;
+    client=&quot;myp4clientws&quot;
+    .
+    .
+    .
+/&gt;
+</pre>
+<pre>
+&lt;p4[command] files=&quot;//depot/source/module/file.c#8&quot;&gt;
+    &lt;fileset dir=&quot;/staff/user/usercws&quot; id=&quot;user.source.files&quot;&gt;
+        &lt;include name=&quot;**/*.java&quot;/&gt;
+        &lt;exclude name=&quot;**/*.class&quot;/&gt;
+    &lt;/fileset&gt;
+    &lt;file path="//usercws/file.c#have"/&gt;
+    &lt;file path="//usercws/file2.c#3"/&gt;
+    .
+    .
+    .
+&lt;/p4[command]&gt;
+</pre>
+<pre>
+&lt;p4[command] &quot;&gt;
+    &lt;field name="Status" value="open"/&gt;
+    &lt;field name="Description" value="Java bug - JVM out of memory error."/&gt;
+    .
+    .
+    .
+&lt;/p4[command]&gt;
+</pre>
+
+<p>Please refer to the <a
+  href="http://www.perforce.com/perforce/doc.current/manuals/cmdref/index.html"
+  target="_top">Perforce Command Reference</a> for more information
+regarding the Perforce commands.</p>
+
+<hr>
+<h2>Task Descriptions</h2>
+
+<h2><a name="p4jadd">P4JAdd</a></h2>
+<h3>Description:</h3>
+<p>Opens new files for adding to the depot. If the files exist on
+the client they are read to determine if they are text or binary. If the
+file type cannot be determined then it is assumed to be text.</p>
+
+<h3>Parameters</h3>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td valign="top"><b>Default</b></td>
+    <td align="center" valign="top"><b>P4 Command</b></td>
+  </tr>
+  <tr>
+    <td valign="top">changelist</td>
+    <td valign="top">If given, the open files are associated with the
+    specified pending changelist number; otherwise the open files are
+    associated with the default changelist.</td>
+    <td valign="top">No</td>
+    <td valign="top">0 (default)</td>
+    <td valign="top" align="center">p4 add -c</td>
+  </tr>
+  <tr>
+    <td valign="top">noupdate</td>
+    <td valign="top">If true, it lists what would be opened for add
+    without actually changing any files or metadata.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 add -n</td>
+  </tr>
+  <tr>
+    <td valign="top">filetype</td>
+    <td valign="top">If null, it looks for a filetype using the
+    name-to-type mapping table managed by 'p4 typemap'. It senses the
+    filetype by examining the file's contents and execute permission bit.
+    If non-null, the files are added as that filetype.</td>
+    <td valign="top">No</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center">p4 add -t</td>
+  </tr>
+  <tr>
+    <td valign="top">usewildcards</td>
+    <td valign="top">If true, filenames that contain wildcards are
+    permitted. Filenames added to the repository that contain these
+    special wildcard characters '@', '#', '%' or '*' will have those
+    characters formatted into ascii hexadecimal representation. The only
+    way of referring to those files once added will be to use the
+    formatted version, the local filesystem name will not be recognized.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 add -f</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Assigns a specific file type to a new file, overriding any
+settings in the typemap table.<br>
+<b>Note:</b> The "port", "user", "passwd" and "client" task attributes
+are set explicitly.</p>
+<pre>
+&lt;p4jadd
+    port=&quot;myp4server:1666&quot;
+    user=&quot;myp4user&quot;
+    passwd=&quot;myp4passwd&quot;
+    client=&quot;myp4clientws&quot;
+    files=&quot;file.pdf&quot;
+    filetype=&quot;binary&quot;
+/&gt;
+</pre>
+<p>Opens all the files within the user's current directory for add,
+and links these files to changelist "13".<br>
+<b>Note:</b> The "P4PORT", "P4USER", "P4PASSWD" and "P4CLIENT"
+environment variables are preset by the user.</p>
+<pre>
+&lt;p4jadd
+    files=&quot;*&quot;
+    changelist=&quot;13&quot;
+/&gt;
+</pre>
+<p>Opens all "*.c" files in the user's "~/src" directory for add;
+also opens the "README" file in the user's current working directory for
+add. These files are linked to the default changelist.</p>
+<pre>
+&lt;p4jadd&gt;
+    &lt;file path=&quot;README&quot;/&gt;
+    &lt;file path=&quot;~/src/*.c&quot;/&gt;
+&lt;/p4jadd&gt;
+</pre>
+
+<h2><a name="p4jchange">P4JChange</a></h2>
+<h3>Description:</h3>
+<p>Create or edit a changelist description. With no argument,
+'change' creates a new changelist. If a changelist number is given,
+'change' edits an existing, pending changelist. The
+"deletependingchangelist" (-d flag) option discards a pending
+changelist, but only if it has no opened files and no pending fixes
+associated with it.</p>
+
+<h3>Parameters</h3>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td valign="top"><b>Default</b></td>
+    <td align="center" valign="top"><b>P4 Command</b></td>
+  </tr>
+  <tr>
+    <td valign="top">description</td>
+    <td valign="top">Description of the changelist.</td>
+    <td valign="top">No</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center"></td>
+  </tr>
+  <tr>
+    <td valign="top">deletependingchangelist</td>
+    <td valign="top">If true, the pending changelist will be deleted.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 change -d</td>
+  </tr>
+  <tr>
+    <td valign="top">changelist</td>
+    <td valign="top">The changelist to be modified or deleted.</td>
+    <td valign="top">No</td>
+    <td valign="top"></td>
+    <td valign="top" align="center"></td>
+  </tr>
+  <tr>
+    <td valign="top">property</td>
+    <td valign="top">The property to be set with the changelist
+    number.</td>
+    <td valign="top">No</td>
+    <td valign="top">p4.changelist</td>
+    <td valign="top" align="center"></td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Create a new changelist.</p>
+<pre>
+&lt;p4jchange/&gt;
+</pre>
+<p>Delete changelist "29". This succeeds only if changelist "29" is
+pending and contains no files.</p>
+<pre>
+&lt;p4jchange
+    deletependingchangelist=&quot;true&quot;
+    changelist=&quot;29&quot;
+/&gt;
+</pre>
+
+<h2><a name="p4jchanges">P4JChanges</a></h2>
+<h3>Description:</h3>
+<p>Display a list of pending and submitted changelists. If files are
+specified, it limits its report to changelists that affect those files.
+If the file specification includes a revision range, it limits its
+report to submitted changelists that affect those particular revisions.</p>
+
+<h3>Parameters</h3>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td valign="top"><b>Default</b></td>
+    <td align="center" valign="top"><b>P4 Command</b></td>
+  </tr>
+  <tr>
+    <td valign="top">maxmostrecent</td>
+    <td valign="top">If positive, restrict the list to the specified
+    number of most recent changelists.</td>
+    <td valign="top">No</td>
+    <td valign="top">0</td>
+    <td valign="top" align="center">p4 changes -m max</td>
+  </tr>
+  <tr>
+    <td valign="top">clientname</td>
+    <td valign="top">If non-null, restrict the results to changelists
+    associated with the given client.</td>
+    <td valign="top">No</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center">p4 changes -c client</td>
+  </tr>
+  <tr>
+    <td valign="top">username</td>
+    <td valign="top">If non-null, restrict the results to changelists
+    associated with the given user name.</td>
+    <td valign="top">No</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center">p4 changes -u user</td>
+  </tr>
+  <tr>
+    <td valign="top">includeintegrated</td>
+    <td valign="top">If true, also include any changelists integrated
+    into the specified files (if any).</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 changes -i</td>
+  </tr>
+  <tr>
+    <td valign="top">type</td>
+    <td valign="top">If not null, restrict output to pending, shelved
+    or submitted changelists.</td>
+    <td valign="top">No</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center">p4 changes -s status</td>
+  </tr>
+  <tr>
+    <td valign="top">longdesc</td>
+    <td valign="top">If true, produce a non-truncated long version of
+    the description.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 changes -l</td>
+  </tr>
+  <tr>
+    <td valign="top">property</td>
+    <td valign="top">The property to be set with the list of the
+    changelist numbers.</td>
+    <td valign="top">No</td>
+    <td valign="top">p4.changelists</td>
+    <td valign="top" align="center"></td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Show the last five submitted changelists that include any file
+under the project directory.</p>
+<pre>
+&lt;p4jchanges
+    maxmostrecent=&quot;5&quot;
+    files=&quot;//depot/project/...&quot;
+/&gt;
+</pre>
+<p>Show the last five submitted changelists from client workspace
+"eds_elm".</p>
+<pre>
+&lt;p4jchanges
+    maxmostrecent=&quot;5&quot;
+    clientname=&quot;eds_elm&quot;
+/&gt;
+</pre>
+<p>Show the last five submitted changelists from user "edk".</p>
+<pre>
+&lt;p4jchanges
+    maxmostrecent=&quot;5&quot;
+    username=&quot;edk&quot;
+/&gt;
+</pre>
+<p>Show any changelists that include file file.c, as mapped to the
+depot through the client view, during the month of May 2000.</p>
+<pre>
+&lt;p4jchanges
+    files=&quot;file.c@2000/05/01,2000/06/01&quot;
+/&gt;
+</pre>
+
+<h2><a name="p4jcounter">P4JCounter</a></h2>
+<h3>Description:</h3>
+<p>Display, set, or delete a counter. The first form displays the
+value of the named counter. The second form sets the counter to the
+given value. The third form deletes the counter. This usually has the
+same effect as setting the counter to 0.</p>
+
+<h3>Parameters</h3>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td valign="top"><b>Default</b></td>
+    <td align="center" valign="top"><b>P4 Command</b></td>
+  </tr>
+  <tr>
+    <td valign="top">name</td>
+    <td valign="top">The name of the counter.</td>
+    <td valign="top">Yes</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center"></td>
+  </tr>
+  <tr>
+    <td valign="top">value</td>
+    <td valign="top">The new value for the counter.</td>
+    <td valign="top">No</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center"></td>
+  </tr>
+  <tr>
+    <td valign="top">delete</td>
+    <td valign="top">If true, the counter will be deleted.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 counter -d</td>
+  </tr>
+  <tr>
+    <td valign="top">perforcecounter</td>
+    <td valign="top">If true, this is a Perforce internal counter.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center"></td>
+  </tr>
+  <tr>
+    <td valign="top">property</td>
+    <td valign="top">The property to be set with the value of the
+    counter.</td>
+    <td valign="top">No</td>
+    <td valign="top">p4.counter</td>
+    <td valign="top" align="center"></td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Set the value of a counter named "mycounter" to the value "123".
+If the "mycounter" counter does not exist, it is created. Requires
+review access.</p>
+<pre>
+&lt;p4jcounter
+    name=&quot;mycounter&quot;
+    value=&quot;123&quot;
+/&gt;
+</pre>
+<p>Get the value of the "mycounter" counter and set it to the named
+"mycounter" property. If the "mycounter" counter does not exist, its
+value is displayed as 0. Requires list access.</p>
+<pre>
+&lt;p4jcounter
+    name=&quot;mycounter&quot;
+    property=&quot;p4.mycounter&quot;
+/&gt;
+</pre>
+<p>Delete the "mycounter" counter.</p>
+<pre>
+&lt;p4jcounter
+    delete=&quot;true&quot;
+    name=&quot;mycounter&quot;
+/&gt;
+</pre>
+
+<h2><a name="p4jdelete">P4JDelete</a></h2>
+<h3>Description:</h3>
+<p>Opens files that currently exist in the depot for deletion. If
+the files are present on the client they are removed. If a pending
+changelist number is given the opened files are associated with that
+changelist, otherwise they are associated with the 'default' pending
+changelist.</p>
+
+<h3>Parameters</h3>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td valign="top"><b>Default</b></td>
+    <td align="center" valign="top"><b>P4 Command</b></td>
+  </tr>
+  <tr>
+    <td valign="top">changelist</td>
+    <td valign="top">If positive, the deleted files are put into the
+    pending changelist identified (this changelist must have been
+    previously created for this to succeed). If zero or negative, the file
+    is opened in the 'default' (unnumbered) changelist.</td>
+    <td valign="top">No</td>
+    <td valign="top">0 (default)</td>
+    <td valign="top" align="center">p4 delete -c</td>
+  </tr>
+  <tr>
+    <td valign="top">noupdate</td>
+    <td valign="top">If true, don't actually do the deletes, just
+    return the files that would have been opened for deletion.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 delete -n</td>
+  </tr>
+  <tr>
+    <td valign="top">deletenonsyncedfiles</td>
+    <td valign="top">If true, it allows deleting of files that are
+    not synced into the client workspace.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 delete -v</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Opens the file called "README" in the depot's top level directory
+for deletion. The corresponding file within the client workspace is
+immediately deleted, but the file is not deleted from the depot until
+the default changelist is submitted.</p>
+<pre>
+&lt;p4jdelete
+    files=&quot;README&quot;
+/&gt;
+</pre>
+<p>Opens the "myfile" file in the current client workspace for
+deletion. The file is immediately removed from the client workspace, but
+won't be deleted from the depot until changelist "40" is sent to the
+server with the submit command.</p>
+<pre>
+&lt;p4jdelete
+    changelist=&quot;40&quot;
+    files=&quot;myfile&quot;
+/&gt;
+</pre>
+
+<h2><a name="p4jdiff2">P4JDiff2</a></h2>
+<h3>Description:</h3>
+<p>Run diff (on the server) of two files in the depot. Both files
+may optionally include a revision specification; the default is to
+compare the head revision. Wildcards may be used, but they must match
+between file1 and file2. Note if using clients or labels as file
+arguments they must be preceded with a file path e.g. //...@mylabel
+//...@yourlabel.</p>
+
+<h3>Parameters</h3>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td valign="top"><b>Default</b></td>
+    <td align="center" valign="top"><b>P4 Command</b></td>
+  </tr>
+  <tr>
+    <td valign="top">file1</td>
+    <td valign="top">The first depot file and revision specifier for
+    diff2.</td>
+    <td valign="top">No</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center"></td>
+  </tr>
+  <tr>
+    <td valign="top">file2</td>
+    <td valign="top">The second depot file and revision specifier for
+    diff2.</td>
+    <td valign="top">No</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center"></td>
+  </tr>
+  <tr>
+    <td valign="top">branch</td>
+    <td valign="top">If not null, it causes diff2 to use the branch
+    view to specify the pairs of files to compare. If file arguments are
+    also present, they can further limit the files and specify the
+    revisions for comparison. Note that if only one file is given, it
+    restricts the right-hand side of the branch view.</td>
+    <td valign="top">No</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center">p4 diff2 -b branch</td>
+  </tr>
+  <tr>
+    <td valign="top">quiet</td>
+    <td valign="top">If true, suppresses the display of the header
+    lines of files whose content and types are identical and suppresses
+    the actual diff for all files.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 diff2 -q</td>
+  </tr>
+  <tr>
+    <td valign="top">includenontextdiffs</td>
+    <td valign="top">If true, diff even files with non-text (binary)
+    types.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 diff2 -t</td>
+  </tr>
+  <tr>
+    <td valign="top">gnudiffs</td>
+    <td valign="top">If true, use the GNU diff -u format and displays
+    only files that differ. See the "-u" option in the main diff2
+    documentation for an explanation.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 diff2 -u</td>
+  </tr>
+  <tr>
+    <td valign="top">rcsdiffs</td>
+    <td valign="top">If true, use RCS diff.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 diff2 -dn</td>
+  </tr>
+  <tr>
+    <td valign="top">diffcontext</td>
+    <td valign="top">If positive, specifies the number of context
+    diff lines; if zero, lets server pick context number; if negative, no
+    options are generated. Corresponds to -dc[n], with -dc generated for
+    diffcontext == 0, -dcn for diffcontext &gt; 0, where "n" is of course
+    the value of diffcontext.</td>
+    <td valign="top">No</td>
+    <td valign="top">-1</td>
+    <td valign="top" align="center">p4 diff2 -dc[n]</td>
+  </tr>
+  <tr>
+    <td valign="top">summarydiff</td>
+    <td valign="top">If true, perform summary diff.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 diff2 -ds</td>
+  </tr>
+  <tr>
+    <td valign="top">unifieddiff</td>
+    <td valign="top">If positive, specifies the number of unified
+    diff lines; if zero, lets server pick unified number; if negative, no
+    options are generated. Corresponds to -du[n], with -du generated for
+    unifieddiff == 0, -dun for unifieddiff &gt; 0, where "n" is of course
+    the value of unifieddiff.</td>
+    <td valign="top">No</td>
+    <td valign="top">-1</td>
+    <td valign="top" align="center">p4 diff2 -du[n]</td>
+  </tr>
+  <tr>
+    <td valign="top">ignorewhitespacechanges</td>
+    <td valign="top">If true, ignore whitespace changes.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 diff2 -db</td>
+  </tr>
+  <tr>
+    <td valign="top">ignorewhitespace</td>
+    <td valign="top">If true, ignore whitespace.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 diff2 -dw</td>
+  </tr>
+  <tr>
+    <td valign="top">ignorelineendings</td>
+    <td valign="top">If true, ignore line endings.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 diff2 -dl</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Compare the second revision of file file to its head revision,
+and display a summary of what chunks were added to, deleted from, or
+changed within the file.</p>
+<pre>
+&lt;p4jdiff2
+    file1=&quot;file#1&quot;
+    file2=&quot;file&quot;
+    summarydiff=&quot;true&quot;
+/&gt;
+</pre>
+<p>Diff the revision of file that was in the depot after changelist
+"34" was submitted against the revision in the depot at midnight on
+December 4, 1998.</p>
+<pre>
+&lt;p4jdiff2
+    file1=&quot;file@34&quot;
+    file2=&quot;file@1998/12/04&quot;
+/&gt;
+</pre>
+<p>Compare the head revisions of all files under the
+"//depot/rel1/..." path to the fourth revision of all files under the
+"//depot/rel2/..." path.</p>
+<pre>
+&lt;p4jdiff2
+    file1=&quot;//depot/rel1/...&quot;
+    file2=&quot;//depot/rel2/...#4&quot;
+/&gt;
+</pre>
+<p>Not allowed. The wildcards in each file pattern must match.</p>
+<pre>
+&lt;p4jdiff2
+    file1=&quot;/depot/rel1/*&quot;
+    file2=&quot;//depot/rel2/...&quot;
+/&gt;
+</pre>
+<p>Compare the second revision of the files under the
+"//depot/rel2/..." path to the files branched from it by branch mapping
+"branch2" at the revision they were at in changelist "50".</p>
+<pre>
+&lt;p4jdiff2
+    branch=&quot;branch2&quot;
+    file1=&quot;//depot/rel2/...#2&quot;
+    file2=&quot;@50&quot;
+/&gt;
+</pre>
+
+<h2><a name="p4jedit">P4JEdit</a></h2>
+<h3>Description:</h3>
+<p>Open existing files for edit. The server notes that the current
+user on the current client has the files opened, and then changes the
+file permission from read-only to read/write.</p>
+
+<h3>Parameters</h3>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td valign="top"><b>Default</b></td>
+    <td align="center" valign="top"><b>P4 Command</b></td>
+  </tr>
+  <tr>
+    <td valign="top">noupdate</td>
+    <td valign="top">If true, it lists what would be opened for edit
+    without actually changing any files or metadata.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 edit -n</td>
+  </tr>
+  <tr>
+    <td valign="top">bypassclientupdate</td>
+    <td valign="top">If true, bypasses the client file update. It can
+    be used to tell the server that files in a client workspace are
+    already editable, even if they are not present in the client view.
+    Typically this flag is used to correct the Perforce server when it is
+    wrong about the state of files on the client, use of this option can
+    confuse the server if you are wrong about the client's contents.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 edit -k</td>
+  </tr>
+  <tr>
+    <td valign="top">changelist</td>
+    <td valign="top">If given, the file is put into the pending
+    changelist; the changelist must have been previously created.
+    Otherwise the file is opened in the 'default' (unnumbered) changelist.</td>
+    <td valign="top">No</td>
+    <td valign="top">0 (default)</td>
+    <td valign="top" align="center">p4 edit -c</td>
+  </tr>
+  <tr>
+    <td valign="top">filetype</td>
+    <td valign="top">If non-null, the file is opened as that
+    filetype. Otherwise, the filetype of the previous revision is reused.
+    If the filetype given is a partial filetype, that partial filetype is
+    combined with the previous revision's filetype.</td>
+    <td valign="top">No</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center">p4 edit -t</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Opens all files ending in ".txt" within the current directory's
+doc subdirectory for edit. These files are linked to the default
+changelist; these files are stored as type text with keyword expansion.</p>
+<pre>
+&lt;p4jedit
+    filetype=&quot;text+k1&quot;
+    files=&quot;doc/*.txt&quot;
+/&gt;
+</pre>
+<p>Implements pessimistic locking (exclusive-open) for all files in
+a depot. After this changelist is submitted, only one user at a time
+will be able to edit files in the depot named depotname.</p>
+<pre>
+&lt;p4jedit
+    filetype=&quot;+l&quot;
+    files=&quot;//depotname/...&quot;
+/&gt;
+</pre>
+<p>Opens all files anywhere within the current working directory's
+file tree for edit. These files are examined to determine whether they
+are text or binary, and changes to these files are linked to changelist
+"14".</p>
+<pre>
+&lt;p4jedit
+    files=&quot;...&quot;
+    changelist=&quot;14&quot;
+/&gt;
+</pre>
+<p>Open a file named "status@jan1.txt" for edit. Please see the
+Perforce command reference documentation for details about how to
+specify other characters reserved for use as Perforce wildcards.</p>
+<pre>
+&lt;p4jedit
+    files=&quot;status%40jan1.txt&quot;
+/&gt;
+</pre>
+
+<h2><a name="p4jfiles">P4JFiles</a></h2>
+<h3>Description:</h3>
+<p>List files in the depot. List files named or matching wild card
+specification. Display shows depot file name, revision, file type,
+change action and changelist number of the current head revision. If
+client file names are given as arguments the view mapping is used to
+list the corresponding depot files.</p>
+<p>If the file argument has a revision, then all files as of that
+revision are listed. If the file argument has a revision range, then
+only files selected by that revision range are listed, and the highest
+revision in the range is used for each file. Normally, the head revision
+is listed.</p>
+
+<h3>Parameters</h3>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td valign="top"><b>Default</b></td>
+    <td align="center" valign="top"><b>P4 Command</b></td>
+  </tr>
+  <tr>
+    <td valign="top">allrevs</td>
+    <td valign="top">If true, displays all revisions within the
+    specific range, rather than just the highest revision in the range.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 files -a</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Provides information about all files in the depot.</p>
+<pre>
+&lt;p4jfiles
+    files=&quot;//depot/...&quot;
+/&gt;
+</pre>
+<p>Provides information about all depot files visible through the
+client view.</p>
+<pre>
+&lt;p4jfiles
+    files=&quot;//clientname/...&quot;
+/&gt;
+</pre>
+<p>Provides information about all depot file revisions that existed
+on December 10, 2000.</p>
+<pre>
+&lt;p4jfiles
+    files=&quot;@2000/12/10&quot;
+/&gt;
+</pre>
+<p>Lists all files and revisions changed during business hours on
+March 31, 2001.</p>
+<pre>
+&lt;p4jfiles
+    files=&quot;@2001/03/31:08:00,@2001/03/31:17:00&quot;
+/&gt;
+</pre>
+<p>Lists files and revisions under the "//depot/proj2/..." path that
+are included in label "p2lab".</p>
+<pre>
+&lt;p4jfiles
+    files=&quot;//depot/proj2/...@p2lab&quot;
+/&gt;
+</pre>
+<p>Show information on the head revision of the "//depot/file.c"
+file. (that is, the highest revision in the implied range of
+"#1,#head").</p>
+<pre>
+&lt;p4jfiles
+    files=&quot;//depot/file.c&quot;
+/&gt;
+</pre>
+<p>Show information on every revision of the "//depot/file.c" file
+(that is, all revisions in the implied range of "#1,#head").</p>
+<pre>
+&lt;p4jfiles
+    allrevs=&quot;true&quot;
+    files=&quot;//depot/file.c&quot;
+/&gt;
+</pre>
+
+<h2><a name="p4jfix">P4JFix</a></h2>
+<h3>Description:</h3>
+<p>Mark jobs as being fixed by a changelist number. It marks each
+named job as being fixed by the changelist number given. The changelist
+may be either pending or, submitted and the jobs may still be opened or
+already closed (fixed by another changelist).</p>
+<p>If the changelist has already been submitted and the job is still
+open then 'fix' marks the job closed. If the changelist has not been
+submitted and the job is still open, the job will be marked closed when
+the changelist is submitted. If the job is already closed, it is left
+alone.</p>
+
+<h3>Parameters</h3>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td valign="top"><b>Default</b></td>
+    <td align="center" valign="top"><b>P4 Command</b></td>
+  </tr>
+  <tr>
+    <td valign="top">jobs</td>
+    <td valign="top">List of job IDs, separated by whitespace, for
+    jobs that will have their status marked as "closed" or specified job
+    status.</td>
+    <td valign="top">Yes</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center"></td>
+  </tr>
+  <tr>
+    <td valign="top">changelist</td>
+    <td valign="top">Changelist number to be used for marking each
+    named job as being fixed. Initialize to default changelist.</td>
+    <td valign="top">Yes</td>
+    <td valign="top">0 (default)</td>
+    <td valign="top" align="center">p4 fix -c</td>
+  </tr>
+  <tr>
+    <td valign="top">status</td>
+    <td valign="top">If not null, use this as the new status rather
+    than "closed".</td>
+    <td valign="top">No</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center">p4 fix -s status</td>
+  </tr>
+  <tr>
+    <td valign="top">delete</td>
+    <td valign="top">If true, delete the specified fixes.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 fix -d</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Mark two jobs as being fixed by changelist "201". If changelist
+"201" is still pending, the jobs' status is changed to closed when the
+changelist is submitted.</p>
+<pre>
+&lt;p4jfix
+    changelist=&quot;201&quot;
+    jobs=&quot;job000141 job002034&quot;
+/&gt;
+</pre>
+<p>Mark job "job002433" as suspended, rather than closed, when
+changelist "201" is submitted.</p>
+<pre>
+&lt;p4jfix
+    changelist=&quot;201&quot;
+    status=&quot;suspended&quot;
+    jobs=&quot;job002433&quot;
+/&gt;
+</pre>
+
+<h2><a name="p4jfstat">P4JFstat</a></h2>
+<h3>Description:</h3>
+<p>Dumps information about each file, with each item of information
+on a separate line.</p>
+
+<h3>Parameters</h3>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td valign="top"><b>Default</b></td>
+    <td align="center" valign="top"><b>P4 Command</b></td>
+  </tr>
+  <tr>
+    <td valign="top">filterstring</td>
+    <td valign="top">Limits the output to files satisfying the
+    expression given.</td>
+    <td valign="top">No</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center">p4 fstat -F filter</td>
+  </tr>
+  <tr>
+    <td valign="top">maxresults</td>
+    <td valign="top">If greater than 0, limits output to the first
+    'maxresults' number of files.</td>
+    <td valign="top">No</td>
+    <td valign="top">0</td>
+    <td valign="top" align="center">p4 fstat -m</td>
+  </tr>
+  <tr>
+    <td valign="top">reversesort</td>
+    <td valign="top">Sorts the output in reverse order.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 fstat -r</td>
+  </tr>
+  <tr>
+    <td valign="top">sincechangelist</td>
+    <td valign="top">Instructs fstat to display only files affected
+    since the given changelist number.</td>
+    <td valign="top">No</td>
+    <td valign="top">-1 (unknown)</td>
+    <td valign="top" align="center">p4 fstat -c</td>
+  </tr>
+  <tr>
+    <td valign="top">affectedbychangelist</td>
+    <td valign="top">Instructs fstat to display only files affected
+    by the given changelist number.</td>
+    <td valign="top">No</td>
+    <td valign="top">-1 (unknown)</td>
+    <td valign="top" align="center">p4 fstat -e</td>
+  </tr>
+  <tr>
+    <td valign="top">sortbyfiletype</td>
+    <td valign="top">Sort by filetype.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 fstat -St</td>
+  </tr>
+  <tr>
+    <td valign="top">sortbydate</td>
+    <td valign="top">Sort by date.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 fstat -Sd</td>
+  </tr>
+  <tr>
+    <td valign="top">sortbyheadrev</td>
+    <td valign="top">Sort by head revision.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 fstat -Sr</td>
+  </tr>
+  <tr>
+    <td valign="top">sortbyfilesize</td>
+    <td valign="top">Sort by file size.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 fstat -Ss</td>
+  </tr>
+  <tr>
+    <td valign="top">mappedfiles</td>
+    <td valign="top">Files mapped through the client view.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 fstat -Rc</td>
+  </tr>
+  <tr>
+    <td valign="top">syncedfiles</td>
+    <td valign="top">Files synced to the client.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 fstat -Rh</td>
+  </tr>
+  <tr>
+    <td valign="top">openednotheadrevfiles</td>
+    <td valign="top">Files opened not at the head revision.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 fstat -Rn</td>
+  </tr>
+  <tr>
+    <td valign="top">openedfiles</td>
+    <td valign="top">Files opened.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 fstat -Ro</td>
+  </tr>
+  <tr>
+    <td valign="top">openedresolvedfiles</td>
+    <td valign="top">Files opened that have been resolved.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 fstat -Rr</td>
+  </tr>
+  <tr>
+    <td valign="top">openedneedsresolvingfiles</td>
+    <td valign="top">Files opened that need resolving.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 fstat -Ru</td>
+  </tr>
+  <tr>
+    <td valign="top">shelvedfiles</td>
+    <td valign="top">Files shelved (requires 'affectedbychangelist').</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 fstat -Rs</td>
+  </tr>
+  <tr>
+    <td valign="top">allrevs</td>
+    <td valign="top">Output all revisions for the given files (this
+    option suppresses other* and resolve* fields).</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 fstat -Of</td>
+  </tr>
+  <tr>
+    <td valign="top">filesizedigest</td>
+    <td valign="top">Output a file size and digest field for each
+    revision (this may be expensive to compute).</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 fstat -Ol</td>
+  </tr>
+  <tr>
+    <td valign="top">bothpathtypes</td>
+    <td valign="top">Output the local file path in both Perforce
+    syntax (//client/) as 'clientFile' and host form as 'path'.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 fstat -Op</td>
+  </tr>
+  <tr>
+    <td valign="top">pendingintegrationrecs</td>
+    <td valign="top">Output pending integration record information
+    for files opened on the current client.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 fstat -Or</td>
+  </tr>
+  <tr>
+    <td valign="top">excludelocalpath</td>
+    <td valign="top">Exclude client-related data from output.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 fstat -Os</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Displays information on the "file.c" file.</p>
+<pre>
+&lt;p4jfstat
+    files=&quot;file.c&quot;
+/&gt;
+</pre>
+<p>Displays information on all ".c" files affected after the
+checking-in of files under changelist "20".</p>
+<pre>
+&lt;p4jfstat
+    files=&quot;*.c&quot;
+    mappedfiles=&quot;true&quot;
+    sincechangelist=&quot;20&quot;
+/&gt;
+</pre>
+<p>No client workspace information lines (i.e. "clientFile") are
+displayed.</p>
+<pre>
+&lt;p4jfstat
+    files=&quot;*.c&quot;
+    excludelocalpath=&quot;true&quot;
+/&gt;
+</pre>
+<p>No client workspace information lines are displayed, but the file
+size and digest lines are displayed.</p>
+<pre>
+&lt;p4jfstat
+    files=&quot;*.c&quot;
+    excludelocalpath=&quot;true&quot;
+    filesizedigest=&quot;true&quot;
+/&gt;
+</pre>
+<p>Display information on all text files under the
+"//depot/main/..." path that are smaller than 1024 bytes in length.</p>
+<pre>
+&lt;p4jfstat
+    files=&quot;//depot/main/...&quot;
+    filterstring=&quot;fileSize &lt; 1024 &amp; headType=text&quot;
+    filesizedigest=&quot;true&quot;
+/&gt;
+</pre>
+
+<h2><a name="p4jgrep">P4JGrep</a></h2>
+<h3>Description:</h3>
+<p>Grep searches files for lines matching a given regular
+expression; the expression (or pattern) can contain wildcards. The
+parser used internally is based on V8 regexp and might not be compatible
+with later parsers, however the majority of functionality is available.</p>
+<p>If the file argument has a revision, then all files as of that
+revision are searched. If the file argument has a revision range, then
+only files selected by that revision range are listed, and the highest
+revision in the range is used for each file. Normally, the head revision
+is searched. See 'p4 help revisions' for help specifying revisions.</p>
+
+<h3>Parameters</h3>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td valign="top"><b>Default</b></td>
+    <td align="center" valign="top"><b>P4 Command</b></td>
+  </tr>
+  <tr>
+    <td valign="top">pattern</td>
+    <td valign="top">The patterns used are regular expressions
+    comparable to those used in UNIX.</td>
+    <td valign="top">Yes</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center">p4 grep -e pattern</td>
+  </tr>
+  <tr>
+    <td valign="top">allrevisions</td>
+    <td valign="top">Search all revisions within the specified range,
+    rather than only the highest revision in the range.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 grep -a</td>
+  </tr>
+  <tr>
+    <td valign="top">caseinsensitive</td>
+    <td valign="top">Perform case-insensitive pattern matching. (By
+    default, matching is case-sensitive.).</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 grep -i</td>
+  </tr>
+  <tr>
+    <td valign="top">includelinenumbers</td>
+    <td valign="top">Display a matching line number after the file
+    revision number.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 grep -n</td>
+  </tr>
+  <tr>
+    <td valign="top">nonmatchinglines</td>
+    <td valign="top">Display files with non-matching lines.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 grep -v</td>
+  </tr>
+  <tr>
+    <td valign="top">searchbinaries</td>
+    <td valign="top">Treat binary files as text. (By default, only
+    files of type text are selected for pattern matching.).</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 grep -t</td>
+  </tr>
+  <tr>
+    <td valign="top">outputcontext</td>
+    <td valign="top">Display num lines of output context. If zero,
+    option is off.</td>
+    <td valign="top">No</td>
+    <td valign="top">0</td>
+    <td valign="top" align="center">p4 grep -C num</td>
+  </tr>
+  <tr>
+    <td valign="top">trailingcontext</td>
+    <td valign="top">Display num lines of trailing context after
+    matching lines. If zero, option is off.</td>
+    <td valign="top">No</td>
+    <td valign="top">0</td>
+    <td valign="top" align="center">p4 grep -A num</td>
+  </tr>
+  <tr>
+    <td valign="top">leadingcontext</td>
+    <td valign="top">Display num lines of trailing context before
+    matching lines. If zero, option is off.</td>
+    <td valign="top">No</td>
+    <td valign="top">0</td>
+    <td valign="top" align="center">p4 grep -B num</td>
+  </tr>
+  <tr>
+    <td valign="top">fixedpattern</td>
+    <td valign="top">If true, interpret the pattern as a fixed
+    string. If false, interpret the pattern as a regular expression. If
+    true, corresponds to -F; if false, to -G.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 grep -F or -G</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Searches for files under the "//depot/java-project/..." path
+matching pattern "*Complex*Entity.java".</p>
+<pre>
+&lt;p4jgrep
+    files=&quot;//depot/java-project/...&quot;
+    pattern=&quot;*Complex*Entity.java&quot;
+/&gt;
+</pre>
+<p>Searches for all files case-insensitive pattern matching
+"*baseball*.*".</p>
+<pre>
+&lt;p4jgrep
+    files=&quot;//...&quot;
+    caseinsensitive=&quot;true&quot;
+    pattern=&quot;*baseball*.*&quot;
+/&gt;
+</pre>
+<p>Searches for all files match a single character that is a letter,
+number, or underscore. Interpret the pattern as a regular expression.</p>
+<pre>
+&lt;p4jgrep
+    files=&quot;//...&quot;
+    fixedpattern=&quot;false&quot;
+    pattern=&quot;[A-Za-z0-9_]&quot;
+/&gt;
+</pre>
+
+<h2><a name="p4jhave">P4JHave</a></h2>
+<h3>Description:</h3>
+<p>List files and revisions that have been synced to the client
+workspace. List revisions of named files that were last synced from the
+depot. If no file name is given list all files synced on this client.</p>
+
+<h3>Parameters</h3>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td valign="top"><b>Default</b></td>
+    <td align="center" valign="top"><b>P4 Command</b></td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Shows that the highest revision of the file has been copied to
+the client workspace.</p>
+<pre>
+&lt;p4jhave
+    files=&quot;//depot/name&quot;
+/&gt;
+</pre>
+<p>Shows that the fourth revision is the revision currently in the
+client workspace.</p>
+<pre>
+&lt;p4jhave
+    files=&quot;//depot/name/...#4&quot;
+/&gt;
+</pre>
+
+<h2><a name="p4jintegrate">P4JIntegrate</a></h2>
+<h3>Description:</h3>
+<p>Open files for branching or merging. 'integrate' stages change
+propagation from source files to target files, opening the target files
+in the client workspace. 'resolve' then merges content from the source
+files into the opened target files, and 'submit' commits the opened
+files to the depot. Integrations can be abandoned with 'revert'.</p>
+
+<h3>Parameters</h3>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td valign="top"><b>Default</b></td>
+    <td align="center" valign="top"><b>P4 Command</b></td>
+  </tr>
+  <tr>
+    <td valign="top">fromfile</td>
+    <td valign="top">Source file and revision specifiers separated by
+    space. If the path contains whitespace, it must be double-quoted.</td>
+    <td valign="top">Yes</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center"></td>
+  </tr>
+  <tr>
+    <td valign="top">tofile</td>
+    <td valign="top">Target file and revision specifiers separated by
+    space. If the path contains whitespace, it must be double-quoted.</td>
+    <td valign="top">Yes</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center"></td>
+  </tr>
+  <tr>
+    <td valign="top">changelist</td>
+    <td valign="top">If positive, the integrated files are opened in
+    the numbered pending changelist instead of the default changelist.</td>
+    <td valign="top">No</td>
+    <td valign="top">0 (default)</td>
+    <td valign="top" align="center">p4 integrate -c</td>
+  </tr>
+  <tr>
+    <td valign="top">bidirectionalinteg</td>
+    <td valign="top">Causes the branch view to work bidirectionally,
+    where the scope of the command is limited to integrations whose 'from'
+    files match fromfile[revRange]. With the fromfile arg being specified
+    in the main method fromfile parameter.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 integrate -b branch -s</td>
+  </tr>
+  <tr>
+    <td valign="top">integratearounddeletedrevs</td>
+    <td valign="top">If true, enable integrations around deleted
+    revisions.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 integrate -d</td>
+  </tr>
+  <tr>
+    <td valign="top">rebranchsourceafterdelete</td>
+    <td valign="top">If the target file has been deleted and the
+    source file has changed, will re-branch the source file on top of the
+    target file.</td>
+    <td valign="top">No</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center">p4 integrate -d -Dt</td>
+  </tr>
+  <tr>
+    <td valign="top">deletetargetafterdelete</td>
+    <td valign="top">If the source file has been deleted and the
+    target file has changed, will delete the target file.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 integrate -d -Ds</td>
+  </tr>
+  <tr>
+    <td valign="top">integrateallafterreadd</td>
+    <td valign="top">If the source file has been deleted and
+    re-added, will attempt to integrate all outstanding revisions of the
+    file, including those revisions prior to the delete. Normally
+    'integrate' only considers revisions since the last add.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 integrate -d -Di</td>
+  </tr>
+  <tr>
+    <td valign="top">forceintegration</td>
+    <td valign="top">Forces integrate to act without regard for
+    previous integration history.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 integrate -f</td>
+  </tr>
+  <tr>
+    <td valign="top">usehaverev</td>
+    <td valign="top">Causes the target files to be left at the
+    revision currently on the client (the '#have' revision).</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 integrate -h</td>
+  </tr>
+  <tr>
+    <td valign="top">dobaselessmerge</td>
+    <td valign="top">Enables integration between files that have no
+    integration history.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 integrate -i</td>
+  </tr>
+  <tr>
+    <td valign="top">displaybasedetails</td>
+    <td valign="top">Display the base file name and revision which
+    will be used in subsequent resolves if a resolve is needed.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 integrate -o</td>
+  </tr>
+  <tr>
+    <td valign="top">showactionsonly</td>
+    <td valign="top">Display what integrations would be necessary but
+    don't actually do them.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 integrate -n</td>
+  </tr>
+  <tr>
+    <td valign="top">reversemapping</td>
+    <td valign="top">Reverse the mappings in the branch view, with
+    the target files and source files exchanging place.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 integrate -r</td>
+  </tr>
+  <tr>
+    <td valign="top">propagatetype</td>
+    <td valign="top">Propagate the source file's filetype to the
+    target file.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 integrate -t</td>
+  </tr>
+  <tr>
+    <td valign="top">dontcopytoclient</td>
+    <td valign="top">Don't copy newly branched files to the client.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 integrate -v</td>
+  </tr>
+  <tr>
+    <td valign="top">branch</td>
+    <td valign="top">If not null, use this as the integration branch
+    specification.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 integrate -b branch</td>
+  </tr>
+  <tr>
+    <td valign="top">maxfiles</td>
+    <td valign="top">If positive, integrate only the first maxfiles
+    files.</td>
+    <td valign="top">No</td>
+    <td valign="top">0</td>
+    <td valign="top" align="center"></td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Branch or merge all files under the "//depot/dev/..." path to the
+corresponding files under the "//depot/rel2/..." path. If there is no
+corresponding file under the "//depot/rel2/..." path, this creates it.</p>
+<pre>
+&lt;p4jintegrate
+    fromfile=&quot;//depot/dev/...&quot;
+    tofile=&quot;//depot/rel2/...&quot;
+/&gt;
+</pre>
+<p>Branch or merge all fromfiles contained in the branch view
+"rel2br" into the corresponding tofiles as mapped through the branch
+view.</p>
+<pre>
+&lt;p4jintegrate
+    branch=&quot;rel2br&quot;
+/&gt;
+</pre>
+<p>Branch or merge those fromfiles contained in the branch view
+"rel2br" that map to the tofiles "//depot/rel2/headers/...".</p>
+<pre>
+&lt;p4jintegrate
+    branch=&quot;rel2br&quot;
+    tofile=&quot;//depot/rel2/headers/...&quot;
+/&gt;
+</pre>
+<p>Branch or merge fromfile "//depot/rel2/README" from its tofile as
+mapped through the branch view "rel2br".</p>
+<pre>
+&lt;p4jintegrate
+    reversemapping=&quot;true&quot;
+    branch=&quot;rel2br&quot;
+    tofile=&quot;//depot/rel2/README&quot;
+/&gt;
+</pre>
+
+<h2><a name="p4jjob">P4JJob</a></h2>
+<h3>Description:</h3>
+<p>Create or edit a job specification. A job is a defect,
+enhancement, or other unit of intended work. When a new job is saved a
+job name of the form jobNNNNNN is created. If a jobName is given that
+named job will be created, or if the job already exists, it will be
+modified.</p>
+<p><b>Note:</b> The fields from the "field" nested elements will
+override the values set on attributes, such as 'status', 'description',
+etc.</p>
+<h3>Parameters</h3>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td valign="top"><b>Default</b></td>
+    <td align="center" valign="top"><b>P4 Command</b></td>
+  </tr>
+  <tr>
+    <td valign="top">delete</td>
+    <td valign="top">If true, the job will be deleted.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 job -d</td>
+  </tr>
+  <tr>
+    <td valign="top">name</td>
+    <td valign="top">The job name of the form jobNNNNNN. 'new'
+    generates a sequenced job number.</td>
+    <td valign="top">No</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center"></td>
+  </tr>
+  <tr>
+    <td valign="top">status</td>
+    <td valign="top">The job status. Either 'open', 'closed', or
+    'suspended'. Can be changed.</td>
+    <td valign="top">No</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center"></td>
+  </tr>
+  <tr>
+    <td valign="top">creator</td>
+    <td valign="top">The user who created the job. Can be changed.</td>
+    <td valign="top">No</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center"></td>
+  </tr>
+  <tr>
+    <td valign="top">description</td>
+    <td valign="top">Comments about the job. Required for creating a
+    job.</td>
+    <td valign="top">No</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center"></td>
+  </tr>
+  <tr>
+    <td valign="top">property</td>
+    <td valign="top">The property to be set with the job ID.</td>
+    <td valign="top">No</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center"></td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Create a new job with description "New Java bug" and status
+"suspended". Note, the description will be overridden by the nested
+element "field" name-value pairs. Therefore, the final description will
+be "Override New Java bug description". The new job ID will be set to
+the "p4.job" property.</p>
+<pre>
+&lt;p4jjob
+    name=&quot;new&quot;
+    description=&quot;New Java bug.&quot;&gt;
+    &lt;field name="Status" value="suspended"/&gt;
+    &lt;field name="Description" value="Override New Java bug description."/&gt;
+&lt;/p4jjob&gt;
+</pre>
+<p>Change the status of a job to "close".</p>
+<pre>
+&lt;p4jjob
+    name=&quot;job123&quot;
+    status=&quot;closed&quot;
+/&gt;
+</pre>
+<p>Delete a job.</p>
+<pre>
+&lt;p4jjob
+    name=&quot;job123&quot;
+    delete=&quot;true&quot;
+/&gt;
+</pre>
+
+<h2><a name="p4jjobs">P4JJobs</a></h2>
+<h3>Description:</h3>
+<p>Reports the list of all jobs currently known to the system. If a
+file (pattern) is given, only fixes for submitted changelists affecting
+that file (or set of files) are listed. The file pattern may include
+wildcards and/or a revision number range. See 'p4 help revisions' for
+help specifying revisions.</p>
+
+<h3>Parameters</h3>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td valign="top"><b>Default</b></td>
+    <td align="center" valign="top"><b>P4 Command</b></td>
+  </tr>
+  <tr>
+    <td valign="top">maxjobs</td>
+    <td valign="top">If greater than zero, limit the output to the
+    first maxjobs jobs.</td>
+    <td valign="top">No</td>
+    <td valign="top">0</td>
+    <td valign="top" align="center">p4 jobs -m</td>
+  </tr>
+  <tr>
+    <td valign="top">longdescriptions</td>
+    <td valign="top">If true, return full descriptions, otherwise
+    show only a subset (typically the first 128 characters, but this is
+    not guaranteed).</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 jobs -l</td>
+  </tr>
+  <tr>
+    <td valign="top">reverseorder</td>
+    <td valign="top">If true, reverse the normal sort order.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 jobs -r</td>
+  </tr>
+  <tr>
+    <td valign="top">includeintegrated</td>
+    <td valign="top">If true, include any fixes made by changelists
+    integrated into the specified files.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 jobs -i</td>
+  </tr>
+  <tr>
+    <td valign="top">jobview</td>
+    <td valign="top">If not null, this should be a string in format
+    detailed by "p4 help jobview" used to restrict jobs to those
+    satisfying the job view expression.</td>
+    <td valign="top">No</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center">p4 jobs -e</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>List all jobs attached to changelists that include revisions of
+the "//depot/proj/file1.java" file.</p>
+<pre>
+&lt;p4jjobs
+    files=&quot;//depot/proj/file1.java#1&quot;
+/&gt;
+</pre>
+<p>List all jobs attached to changelists that include revisions of
+the "//depot/proj/file1.java" file or revisions of files that were
+integrated into the "//depot/proj/file1.java" file.</p>
+<pre>
+&lt;p4jjobs
+    includeintegrated=&quot;true&quot;
+    files=&quot;//depot/proj/file1.java&quot;
+/&gt;
+</pre>
+<p>List all jobs that contain the word gui in any field.</p>
+<pre>
+&lt;p4jjobs
+    jobview=&quot;gui&quot;
+/&gt;
+</pre>
+<p>List all jobs that contain the word gui in any field and the word
+joe in the "Submitted-By:" field.</p>
+<pre>
+&lt;p4jjobs
+    jobview=&quot;gui Submitted-By=joe&quot;
+/&gt;
+</pre>
+<p>List all jobs that have the word fast or quick in any field, and
+that are linked to changelists that affected files under the
+"//depot/proj/..." path.</p>
+<pre>
+&lt;p4jjobs
+    jobview=&quot;fast|quick&quot;
+    files=&quot;//depot/proj/...&quot;
+/&gt;
+</pre>
+
+<h2><a name="p4jlabel">P4JLabel</a></h2>
+<h3>Description:</h3>
+<p>Create a new label specification or edit an existing label
+specification. A name is required.</p>
+<p>A label is a shorthand for referring to a collection of
+revisions. See 'p4 help revisions' for information on using labels. A
+label is either automatic or static.</p>
+<p>An automatic label refers to the revisions given in the "View:"
+and "Revision:" fields.</p>
+<p>A static label refers to the revisions associated with the label
+by the 'tag' or 'labelsync' commands. A static label cannot have a
+Revision: field.</p>
+
+<h3>Parameters</h3>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td valign="top"><b>Default</b></td>
+    <td align="center" valign="top"><b>P4 Command</b></td>
+  </tr>
+  <tr>
+    <td valign="top">name</td>
+    <td valign="top">The name of label.</td>
+    <td valign="top">Yes</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center"></td>
+  </tr>
+  <tr>
+    <td valign="top">description</td>
+    <td valign="top">Description of the label.</td>
+    <td valign="top">No</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center"></td>
+  </tr>
+  <tr>
+    <td valign="top">revision</td>
+    <td valign="top">Revision specification for the label.</td>
+    <td valign="top">No</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center"></td>
+  </tr>
+  <tr>
+    <td valign="top">locked</td>
+    <td valign="top">Lock the label.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center"></td>
+  </tr>
+  <tr>
+    <td valign="top">delete</td>
+    <td valign="top">Delete the label.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 label -d</td>
+  </tr>
+  <tr>
+    <td valign="top">force</td>
+    <td valign="top">Force the update or deletion of a label.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 label -f</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Create a new label "proj1label".</p>
+<pre>
+&lt;p4jlabel
+    name=&quot;proj1label&quot;
+/&gt;
+</pre>
+<p>Create a new label "proj1label" and set it to "locked".</p>
+<pre>
+&lt;p4jlabel
+    name=&quot;proj1label&quot;
+    locked=&quot;true&quot;
+/&gt;
+</pre>
+
+<h2><a name="p4jlabelsync">P4JLabelsync</a></h2>
+<h3>Description:</h3>
+<p>Synchronize a label with the current client contents. Labelsync
+causes the named label to reflect the current contents of the client. It
+records the last revision of each file taken onto the client. The
+label's name can subsequently be used in a revision specification as
+@label to refer to the revision of a file as stored in the label.</p>
+<p>Without a file argument, labelsync causes the label to reflect
+the contents of the whole client, by adding, deleting, and updating the
+label. If a file is given, labelsync updates only that named file.</p>
+<p>If the file argument includes a revision specification, then that
+revision is used instead of the revision taken by the client. If the
+revision specified is a deleted revision, then the label will include
+that deleted revision. See 'p4 help revisions' for help specifying
+revisions.</p>
+<p>If the file argument includes a revision range specification,
+then only files selected by the revision range are updated, and the
+highest revision in the range is used.</p>
+
+<h3>Parameters</h3>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td valign="top"><b>Default</b></td>
+    <td align="center" valign="top"><b>P4 Command</b></td>
+  </tr>
+  <tr>
+    <td valign="top">name</td>
+    <td valign="top">The name of label.</td>
+    <td valign="top">Yes</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center">p4 labelsync -l label</td>
+  </tr>
+  <tr>
+    <td valign="top">noupdate</td>
+    <td valign="top">If true, lists how the label would be affected,
+    but doesn't actually update the label.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 labelsync -n</td>
+  </tr>
+  <tr>
+    <td valign="top">addfiles</td>
+    <td valign="top">If true, it causes labelsync to add the named
+    file to the label; no files will be deleted from the label.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 labelsync -a</td>
+  </tr>
+  <tr>
+    <td valign="top">deletefiles</td>
+    <td valign="top">If true, it deletes the named file from the
+    label, regardless of revision.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 labelsync -d</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Sync the label "proj1label" with the client files under the
+"//depot/proj1/..." path.</p>
+<pre>
+&lt;p4jlabelsync
+    name=&quot;proj1label&quot;
+    files=&quot;//depot/proj1/...&quot;
+/&gt;
+</pre>
+<p>Sync the label "proj1label" with all of the client files.</p>
+<pre>
+&lt;p4jlabelsync
+    name=&quot;proj1label&quot;
+/&gt;
+</pre>
+
+<h2><a name="p4jlock">P4JLock</a></h2>
+<h3>Description:</h3>
+<p>Lock opened files against changelist submission.</p>
+<p>The open files named are locked in the depot, preventing any user
+other than the current user on the current client from submitting
+changes to the files. If a file is already locked then the lock request
+is rejected. If no file names are given then lock all files currently
+open in the changelist number given or in the 'default' changelist if no
+changelist number is given.</p>
+
+<h3>Parameters</h3>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td valign="top"><b>Default</b></td>
+    <td align="center" valign="top"><b>P4 Command</b></td>
+  </tr>
+  <tr>
+    <td valign="top">changelist</td>
+    <td valign="top">If positive, use the changelist given instead of
+    the default changelist.</td>
+    <td valign="top">No</td>
+    <td valign="top">0 (default)</td>
+    <td valign="top" align="center">p4 lock -c</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Lock the file "//depot/projA/fast1.c" in the depot.</p>
+<pre>
+&lt;p4jlock
+    files=&quot;//depot/projA/fast1.c&quot;
+/&gt;
+</pre>
+<p>Lock all files under the "//depot/projA/..." path in the depot.</p>
+<pre>
+&lt;p4jlock
+    files=&quot;//depot/projA/...&quot;
+/&gt;
+</pre>
+
+<h2><a name="p4jmove">P4JMove</a></h2>
+<h3>Description:</h3>
+<p>Move files from one location to another.</p>
+<p>Move takes an already opened file and moves it from one client
+location to another, reopening it as a pending depot move. When the file
+is submitted with 'submit', its depot file is moved accordingly.</p>
+<p>Wildcards in fromFile and toFile must match. The fromFile must be
+a file opened for add or edit.</p>
+<p>'opened' lists pending moves. 'diff' can compare a moved client
+file with its depot original, 'sync' can schedule an update of a moved
+file, and 'resolve' can resolve the update.</p>
+<p>A client file may be moved many times before it is submitted.
+Moving a file back to its original location will undo a pending move,
+leaving unsubmitted content intact. Using 'revert' will both undo the
+move and revert the unsubmitted content.</p>
+<h3>Parameters</h3>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td valign="top"><b>Default</b></td>
+    <td align="center" valign="top"><b>P4 Command</b></td>
+  </tr>
+  <tr>
+    <td valign="top">fromfile</td>
+    <td valign="top">Source file and revision specifiers separated by
+    space. If the path contains whitespace, it must be double-quoted.</td>
+    <td valign="top">Yes</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center"></td>
+  </tr>
+  <tr>
+    <td valign="top">tofile</td>
+    <td valign="top">Target file and revision specifiers separated by
+    space. If the path contains whitespace, it must be double-quoted.</td>
+    <td valign="top">Yes</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center"></td>
+  </tr>
+  <tr>
+    <td valign="top">changelist</td>
+    <td valign="top">If specified, the files are opened in the
+    numbered pending changelist instead of the 'default' changelist.</td>
+    <td valign="top">No</td>
+    <td valign="top">-1 (unknown)</td>
+    <td valign="top" align="center">p4 move -c changelist</td>
+  </tr>
+  <tr>
+    <td valign="top">listonly</td>
+    <td valign="top">If true, don't actually perform the move, just
+    return what would happen if the move was performed.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 move -n</td>
+  </tr>
+  <tr>
+    <td valign="top">force</td>
+    <td valign="top">If true, force a move to an existing target
+    file; the file must be synced and not opened. Note that the
+    originating source file will no longer be synced to the client.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 move -f</td>
+  </tr>
+  <tr>
+    <td valign="top">noclientmove</td>
+    <td valign="top">If true, bypasses the client file rename. This
+    option can be used to tell the server that the user has already
+    renamed a file on the client. The use of this option can confuse the
+    server if you are wrong about the client's contents. Only works for
+    2009.2 and later servers; earlier servers will produce a
+    RequestException if you set this true.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 move -k</td>
+  </tr>
+  <tr>
+    <td valign="top">filetype</td>
+    <td valign="top">If non-null, the file is reopened as that
+    filetype. If the filetype given is a partial filetype, that partial
+    filetype is combined with the current filetype.</td>
+    <td valign="top">No</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center">p4 move -t filetype</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Assuming that "file1.c" is open for add or edit, move "file1.c"
+to "file2.c".</p>
+<pre>
+&lt;p4jmove
+    fromfile=&quot;file1.c&quot;
+    tofile=&quot;file2.c&quot;
+/&gt;
+</pre>
+<p>Moving open files from directory "d1" to directory "d2".</p>
+<pre>
+&lt;p4jmove
+    fromfile=&quot;//depot/d1/...&quot;
+    tofile=&quot;//depot/d2/...&quot;
+/&gt;
+</pre>
+
+<h2><a name="p4jreopen">P4JReopen</a></h2>
+<h3>Description:</h3>
+<p>Move opened files between changelists or change the files' type.
+Reopen takes an already opened file and reopens it for the current user,
+optionally changing its changelist or filetype. The changelist must have
+previously been created with 'change' or may be the 'default'
+changelist.</p>
+<h3>Parameters</h3>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td valign="top"><b>Default</b></td>
+    <td align="center" valign="top"><b>P4 Command</b></td>
+  </tr>
+  <tr>
+    <td valign="top">tochangelist</td>
+    <td valign="top">If given, the file is moved to that changelist;
+    that changelist must have been previously created. Otherwise the file
+    is opened in the 'default' (unnumbered) changelist.</td>
+    <td valign="top">No</td>
+    <td valign="top">0 (default)</td>
+    <td valign="top" align="center">p4 reopen -c</td>
+  </tr>
+  <tr>
+    <td valign="top">filetype</td>
+    <td valign="top">If non-null, the file is reopened as that
+    filetype. If the filetype given is a partial filetype, that partial
+    filetype is combined with the current filetype.</td>
+    <td valign="top">No</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center">p4 reopen -t filetype</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Reopen all open files as text files with keyword expansion.</p>
+<pre>
+&lt;p4jreopen
+    filetype=&quot;text+k&quot;
+    files=&quot;//...&quot;
+/&gt;
+</pre>
+<p>Move all open files under directory //depot/proj1 or that are
+named README to pending changelist "410".</p>
+<pre>
+&lt;p4jreopen tochangelist=&quot;410&quot;&gt;
+    &lt;file path=&quot;//depot/proj1/...&quot;/&gt;
+    &lt;file path=&quot;//.../README&quot;/&gt;
+&lt;/p4jreopen&gt;
+</pre>
+<p>Move all open ".exe" files to the default changelist, overwriting
+older revisions of those files in the depot.</p>
+<pre>
+&lt;p4jreopen
+    filetype=&quot;binary+S&quot;
+    files=&quot;//....exe&quot;
+    tochangelist=&quot;0&quot;
+/&gt;
+</pre>
+
+<h2><a name="p4jresolve">P4JResolve</a></h2>
+<h3>Description:</h3>
+<p>Merge open files with other revisions or files. Automatically
+resolve the results of a previous Perforce file integration. Note also
+that having safeMerge, acceptTheirs, acceptYours, and forceResolve all
+set to false in the associated ResolveFilesAutoOptions object results in
+"-am" behavior.</p>
+<h3>Parameters</h3>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td valign="top"><b>Default</b></td>
+    <td align="center" valign="top"><b>P4 Command</b></td>
+  </tr>
+  <tr>
+    <td valign="top">safemerge</td>
+    <td valign="top">If true, only do "safe" resolves, as documented
+    for the 'p4 resolve' "-as" option.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 resolve -as</td>
+  </tr>
+  <tr>
+    <td valign="top">accepttheirs</td>
+    <td valign="top">If true, automatically accept "their" changes,
+    as documented for the 'p4 resolve' "-at" option.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 resolve -at</td>
+  </tr>
+  <tr>
+    <td valign="top">acceptyours</td>
+    <td valign="top">If true, automatically accept "your" changes, as
+    documented for the 'p4 resolve' "-ay" option.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 resolve -ay</td>
+  </tr>
+  <tr>
+    <td valign="top">showactionsonly</td>
+    <td valign="top">If true, don't do the actual resolve, just
+    return the actions that would have been performed for the resolve.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 resolve -n</td>
+  </tr>
+  <tr>
+    <td valign="top">forceresolve</td>
+    <td valign="top">Forces auto-mode resolve to accept the merged
+    file even if there are conflicts. Corresponds to the "-af" option.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 resolve -af</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Automatically accept the Perforce-recommended file revision: if
+theirs is identical to base, accept yours; if yours is identical to
+base, accept theirs; if yours and theirs are different from base, and
+there are no conflicts between yours and theirs; accept merge; other
+wise, there are conflicts between yours and theirs, so skip this file.
+This example corresponds to the "-am" option.</p>
+<pre>
+&lt;p4jresolve
+    files=&quot;//depot/projA/test-branch/src/test/...&quot;
+/&gt;
+</pre>
+<p>Accept yours, ignore theirs. This example corresponds to the
+"-ay" option.</p>
+<pre>
+&lt;p4jresolve
+    acceptyours=&quot;true&quot;
+    files=&quot;//depot/projA/test-branch/src/test/...&quot;
+/&gt;
+</pre>
+
+<h2><a name="p4jrevert">P4JRevert</a></h2>
+<h3>Description:</h3>
+<p>Discard changes from opened files. Revert an open file back to
+the revision previously synced from the depot, discarding any pending
+changelists or integrations that have been made. This command requires
+naming files explicitly. After running revert the named files will no
+longer be locked or open.</p>
+<h3>Parameters</h3>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td valign="top"><b>Default</b></td>
+    <td align="center" valign="top"><b>P4 Command</b></td>
+  </tr>
+  <tr>
+    <td valign="top">noupdate</td>
+    <td valign="top">If true, it lists what files would be affected
+    but does not actually revert them.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 revert -n</td>
+  </tr>
+  <tr>
+    <td valign="top">changelist</td>
+    <td valign="top">If given, it limits the revert to files opened
+    under the given, pending changelist.</td>
+    <td valign="top">No</td>
+    <td valign="top">0 (default)</td>
+    <td valign="top" align="center">p4 revert -c</td>
+  </tr>
+  <tr>
+    <td valign="top">revertonlyunchanged</td>
+    <td valign="top">If true, it reverts only those files which are
+    opened for edit or integrate and are unchanged or missing. Files with
+    pending integration records are left open.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 revert -a</td>
+  </tr>
+  <tr>
+    <td valign="top">noclientrefresh</td>
+    <td valign="top">If true, bypasses the client file refresh. It
+    can be used to make the server believe the file is no longer open, but
+    keeps the file unchanged in the client workspace.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 revert -k</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Revert every file you have open, in every one of your pending
+changelists, to its pre-opened state.</p>
+<pre>
+&lt;p4jrevert
+    files=&quot;//...&quot;
+/&gt;
+</pre>
+<p>Revert every file open in the default changelist to its
+pre-opened state.</p>
+<pre>
+&lt;p4jrevert
+    changelist=&quot;default&quot;
+    files=&quot;//...&quot;
+/&gt;
+</pre>
+<p>Preview a reversion of all open ".txt" files in the current
+directory, but don't actually perform the revert.</p>
+<pre>
+&lt;p4jrevert
+    noupdate=&quot;true&quot;
+    files=&quot;*.txt&quot;
+/&gt;
+</pre>
+<p>Revert all unchanged files. This command is often used before
+submitting a changelist.</p>
+<pre>
+&lt;p4jrevert
+    revertonlyunchanged=&quot;true&quot;
+/&gt;
+</pre>
+
+<h2><a name="p4jshelve">P4JShelve</a></h2>
+<h3>Description:</h3>
+<p>Store files from a pending changelist in the depot, without
+submitting them.</p>
+<p>The 'shelve' command creates, modifies or deletes shelved files
+in a pending changelist. Shelved files persist in the depot until they
+are deleted (using the 'deletefiles' attribute) or replaced by
+subsequent shelve commands. After shelving, the user can revert the
+files and restore them later using 'unshelve'. Other users can
+'unshelve' the stored files into their own workspaces.</p>
+<p>Files that have been shelved can be accessed by the 'diff',
+'diff2', 'files' and 'print' commands using the revision specification
+'@=change', where 'change' is the pending changelist number.</p>
+<p>Adds files from the user's specified changelist then shelves
+those files into the depot.</p>
+<p>If a file pattern is specified, 'shelve' limits the list of files
+to those matching the pattern.</p>
+<h3>Parameters</h3>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td valign="top"><b>Default</b></td>
+    <td align="center" valign="top"><b>P4 Command</b></td>
+  </tr>
+  <tr>
+    <td valign="top">changelist</td>
+    <td valign="top">The pending changelist that contains shelved
+    files to be created, deleted, or modified.</td>
+    <td valign="top">Yes</td>
+    <td valign="top"></td>
+    <td valign="top" align="center">p4 shelve -c</td>
+  </tr>
+  <tr>
+    <td valign="top">forceshelve</td>
+    <td valign="top">If true, it forces overwriting any existing
+    shelved files in a pending changelist.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 shelve -f</td>
+  </tr>
+  <tr>
+    <td valign="top">replacefiles</td>
+    <td valign="top">If true, enables you to replace all shelved
+    files in that changelist with the files opened in your own workspace
+    at that changelist number. Only the user and client workspace of the
+    pending changelist is allowed to replace its shelved files.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 shelve -r</td>
+  </tr>
+  <tr>
+    <td valign="top">deletefiles</td>
+    <td valign="top">If true, it deletes the shelved files in the
+    specified changelist so that they can no longer be unshelved. By
+    default only the user and client of the pending changelist is allowed
+    to delete its shelved files.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 shelve -d</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Stores the files under the "//depot/proj1/dev/..." path in the
+changelist "410" to the Perforce server.</p>
+<pre>
+&lt;p4jshelve
+    changelist=&quot;410&quot;
+    files=&quot;//depot/proj1/dev/...&quot;
+/&gt;
+</pre>
+<p>Deletes the shelved files in the specified changelist "410" so
+that they can no longer be unshelved.</p>
+<pre>
+&lt;p4jshelve
+    changelist=&quot;410&quot;
+    deletefiles=&quot;true&quot;
+/&gt;
+</pre>
+
+<h2><a name="p4jsubmit">P4JSubmit</a></h2>
+<h3>Description:</h3>
+<p>Commits a pending changelist and its files to the depot.</p>
+<p>With no argument the 'submit' command attempts to submit all
+files in the 'default' changelist. Submit provides the user with a
+dialog similar to 'change' so the user can compose a changelist
+description. In this dialog the user is presented with the list of files
+open in changelist 'default'. Files may be deleted from this list but
+they cannot be added. (Use an open command (edit, add, delete) to add
+additional files to a changelist.).</p>
+<p>If a (single) file pattern is given, only those files in the
+'default' changelist that match the pattern will be submitted.</p>
+<h3>Parameters</h3>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td valign="top"><b>Default</b></td>
+    <td align="center" valign="top"><b>P4 Command</b></td>
+  </tr>
+  <tr>
+    <td valign="top">changelistdescription</td>
+    <td valign="top">The description of the changelist.</td>
+    <td valign="top">No</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center">p4 submit -d</td>
+  </tr>
+  <tr>
+    <td valign="top">changelist</td>
+    <td valign="top">Submits the numbered pending changelist that has
+    been previously created or a failed submit.</td>
+    <td valign="top">No</td>
+    <td valign="top">0 (default)</td>
+    <td valign="top" align="center">p4 submit -c</td>
+  </tr>
+  <tr>
+    <td valign="top">changelistproperty</td>
+    <td valign="top">Name of property to set the new changelist
+    number, if the Perforce server renumbers the change.</td>
+    <td valign="top">No</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center"></td>
+  </tr>
+  <tr>
+    <td valign="top">needsresolveproperty</td>
+    <td valign="top">Name of property to be set to true, if the
+    submit requires a resolve.</td>
+    <td valign="top">No</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center"></td>
+  </tr>
+  <tr>
+    <td valign="top">reopen</td>
+    <td valign="top">If true, it allows submitted files to remain
+    open (on the client's default changelist) after the submit has
+    completed.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 submit -r</td>
+  </tr>
+  <tr>
+    <td valign="top">job</td>
+    <td valign="top">List of job IDs, separated by whitespace, for
+    jobs that will have their status changed to fixed or "jobStatus".</td>
+    <td valign="top">No</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center"></td>
+  </tr>
+  <tr>
+    <td valign="top">jobstatus</td>
+    <td valign="top">Status of jobs will be set on a successful
+    submit; if null the jobs will be marked fixed.</td>
+    <td valign="top">No</td>
+    <td valign="top">null</td>
+    <td valign="top" align="center">p4 submit -s</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Commits a pending changelist and its files to the depot.</p>
+<pre>
+&lt;p4jsubmit
+    changelistdescription=&quot;Updated Java classes.&quot;
+/&gt;
+</pre>
+<p>Submits the numbered pending changelist "410" that has been
+previously created or a failed submit.</p>
+<pre>
+&lt;p4jsubmit
+    changelist=&quot;410&quot;
+/&gt;
+</pre>
+<p>Submits files under the "//depot/proj1/newfiles/..." path in the
+numbered pending changelist "410" to the depot.</p>
+<pre>
+&lt;p4jsubmit
+    changelist=&quot;410&quot;
+    files=&quot;//depot/proj1/newfiles/...&quot;
+/&gt;
+</pre>
+
+<h2><a name="p4jsync">P4JSync</a></h2>
+<h3>Description:</h3>
+<p>Synchronize the client with its view of the depot.</p>
+<p>Sync updates the client workspace to reflect its current view (if
+it has changed) and the current contents of the depot (if it has
+changed). The client view is used to map client file names to depot file
+names and vice versa.</p>
+<p>Sync adds files that are in the client view but which have not
+been retrieved before. Sync deletes previously retrieved files which are
+no longer in the client view or have been deleted from the depot. Sync
+updates files which are still in the client view and which have been
+updated in the depot.</p>
+<p>Normally, sync affects all files in the client workspace. If file
+arguments are given, sync limits its operation to those files. The file
+arguments may contain wildcards.</p>
+<p>If the file argument includes a revision specifier, then the
+given revision is retrieved. Normally, the head revision is retrieved.
+See 'p4 help revisions' for help specifying revisions.</p>
+<p>If the file argument includes a revision range specification,
+then only files selected by the revision range are updated, and the
+highest revision in the range is used.</p>
+<p>Normally, sync will not clobber files in the client workspace
+that the user has made writable. Setting the 'clobber' option in the
+client spec disables this safety check.</p>
+<h3>Parameters</h3>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td valign="top"><b>Default</b></td>
+    <td align="center" valign="top"><b>P4 Command</b></td>
+  </tr>
+  <tr>
+    <td valign="top">forceupdate</td>
+    <td valign="top">If true, it forces re-sync even if the client
+    already has the file, and clobbers writable files. This flag doesn't
+    affect open files.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 sync -f</td>
+  </tr>
+  <tr>
+    <td valign="top">noupdate</td>
+    <td valign="top">If true, it causes sync not to update the client
+    workspace, but to list what normally would be updated.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 sync -n</td>
+  </tr>
+  <tr>
+    <td valign="top">clientbypass</td>
+    <td valign="top">If true, it bypasses the client file update. It
+    can be used to make the server believe that a client workspace already
+    has the file. Typically this flag is used to correct the Perforce
+    server when it is wrong about what files are on the client. Use of
+    this option can confuse the server if you are wrong about the client's
+    contents.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 sync -k</td>
+  </tr>
+  <tr>
+    <td valign="top">serverbypass</td>
+    <td valign="top">If true, it populates the client workspace, but
+    does not update the server to reflect those updates. Any file that is
+    already sync'ed or opened will be bypassed with a warning message.
+    This option is very useful for build clients or when publishing
+    content without the requirement of saving the client workspace state.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 sync -p</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Copy the latest revision of all files from the depot to the
+client workspace, as mapped through the client view. If the file is
+already open in the client workspace, or if the latest revision of the
+file exists in the client workspace, it is not copied.</p>
+<pre>
+&lt;p4jsync/&gt;
+</pre>
+<p>Copy the fourth revision of "file.c" to the client workspace,
+with the same exceptions as in the example above.</p>
+<pre>
+&lt;p4jsync
+    files=&quot;file.c#4&quot;
+/&gt;
+</pre>
+<p>Copy all the files under the "//depot/proj1" path from the depot
+to the client workspace, as mapped through the client view. Don't copy
+the latest revision; use the revision of the file in the depot after
+changelist "21" was submitted.</p>
+<pre>
+&lt;p4jsync
+    files=&quot;//depot/proj1/...@21&quot;
+/&gt;
+</pre>
+<p>Force update of all the files under the "//depot/proj1" path from
+the depot to the client workspace, even if the client already has the
+file, and clobbers writable files. This option doesn't affect open
+files.</p>
+<pre>
+&lt;p4jsync
+    forceupdate=&quot;true&quot;
+    files=&quot;//depot/proj1/...&quot;
+/&gt;
+</pre>
+<p>Bring the workspace into sync with a label, but preserve
+unlabeled files in the workspace.</p>
+<pre>
+&lt;p4jsync
+    files=&quot;@mylabelname&quot;
+/&gt;
+</pre>
+
+<h2><a name="p4jtag">P4JTag</a></h2>
+<h3>Description:</h3>
+<p>Tag files with a label.</p>
+<p>Tag associates the named label with the file revisions indicated
+by the file argument. Once file revisions are tagged with a label,
+revision specifications of the form '@label' can be used to refer to
+them.</p>
+<p>If the file argument does not include a revision specification,
+the head revisions will be tagged. See 'p4 help revisions' for revision
+specification options.</p>
+<p>If the file argument includes a revision range specification,
+only the files with revisions in that range will be tagged. Files with
+more than one revision in the range will be tagged at the highest
+revision.</p>
+<p>The "delete" (-d flag) option deletes the association between the
+specified files and the label, regardless of revision.</p>
+<h3>Parameters</h3>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td valign="top"><b>Default</b></td>
+    <td align="center" valign="top"><b>P4 Command</b></td>
+  </tr>
+  <tr>
+    <td valign="top">label</td>
+    <td valign="top">Name of the label to be associated with the
+    files.</td>
+    <td valign="top">Yes</td>
+    <td valign="top"></td>
+    <td valign="top" align="center">p4 tag -l</td>
+  </tr>
+  <tr>
+    <td valign="top">listonly</td>
+    <td valign="top">If true, it lists the files that would be
+    tagged, but doesn't actually do anything.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 tag -n</td>
+  </tr>
+  <tr>
+    <td valign="top">delete</td>
+    <td valign="top">If true, it deletes the association between the
+    specified files and the label, regardless of revision.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 tag -d</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Tag the head revisions of files under the "//depot/1.0/..." path
+with label "rel1". If the label "rel1" does not exist, create it.</p>
+<pre>
+&lt;p4jtag
+    label=&quot;rel1&quot;
+    files=&quot;//depot/1.0/...&quot;
+/&gt;
+</pre>
+<p>Tag the most recent revisions as of the submission of changelist
+"1234" of files under the "//depot/1.0/..." path with label build. If
+the label build does not exist, create it.</p>
+<pre>
+&lt;p4jtag
+    files=&quot;//depot/1.0/...@1234&quot;
+    label=&quot;build&quot;
+/&gt;
+</pre>
+
+<h2><a name="p4junlock">P4JUnlock</a></h2>
+<h3>Description:</h3>
+<p>Release locked files but leave them open.</p>
+<p>The unlock command releases a lock on an open file in a pending
+changelist. If the file is open in a specific pending changelist other
+than 'default', then the -c flag is required to specify the pending
+changelist. If no file name is given then all files in the designated
+changelist are unlocked.</p>
+<h3>Parameters</h3>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td valign="top"><b>Default</b></td>
+    <td align="center" valign="top"><b>P4 Command</b></td>
+  </tr>
+  <tr>
+    <td valign="top">changelist</td>
+    <td valign="top">If positive, use the changelist given instead of
+    the default changelist.</td>
+    <td valign="top">No</td>
+    <td valign="top">0 (default)</td>
+    <td valign="top" align="center">p4 unlock -c</td>
+  </tr>
+  <tr>
+    <td valign="top">forceunlock</td>
+    <td valign="top">Force unlock of any file; normally files can
+    only be unlocked by their owner. The forceunlock (-f flag) option
+    requires 'admin' access granted by 'p4 protect'.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 unlock -f</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Unlock the file "//depot/projA/fast1.c" in the depot.</p>
+<pre>
+&lt;p4junlock
+    files=&quot;//depot/projA/fast1.c&quot;
+/&gt;
+</pre>
+<p>Force unlock all files under "//depot/projA/..." in the depot.</p>
+<pre>
+&lt;p4junlock
+    files=&quot;//depot/projA/...&quot;
+    forceunlock=&quot;true&quot;
+/&gt;
+</pre>
+
+<h2><a name="p4junshelve">P4JUnshelve</a></h2>
+<h3>Description:</h3>
+<p>Restore shelved files from a pending change into a workspace.</p>
+<p>The unshelve command retrieves the shelved files from a pending
+changelist and copies them into a pending changelist on the invoking
+user's workspace. Unshelving files from a pending changelist is
+restricted by the user's permissions on the files. A successful unshelve
+operation places the shelved files on the user's workspace with the same
+open action and pending integration history as if it had originated from
+that user and client.</p>
+<h3>Parameters</h3>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top"><b>Attribute</b></td>
+    <td valign="top"><b>Description</b></td>
+    <td valign="top"><b>Required</b></td>
+    <td valign="top"><b>Default</b></td>
+    <td align="center" valign="top"><b>P4 Command</b></td>
+  </tr>
+  <tr>
+    <td valign="top">fromchangelist</td>
+    <td valign="top">The source pending changelist that contains the
+    shelved files.</td>
+    <td valign="top">Yes</td>
+    <td valign="top">0 (default)</td>
+    <td valign="top" align="center">p4 unshelve -s</td>
+  </tr>
+  <tr>
+    <td valign="top">tochangelist</td>
+    <td valign="top">The target changelist to receive the shelved
+    files.</td>
+    <td valign="top">No</td>
+    <td valign="top">0 (default)</td>
+    <td valign="top" align="center">p4 unshelve -c</td>
+  </tr>
+  <tr>
+    <td valign="top">forceunshelve</td>
+    <td valign="top">If true, it forces the clobbering of any
+    writeable but unopened files that are being unshelved.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 unshelve -f</td>
+  </tr>
+  <tr>
+    <td valign="top">preview</td>
+    <td valign="top">If true, previews what would be unshelved
+    without actually changing any files or metadata.</td>
+    <td valign="top">No</td>
+    <td valign="top">false</td>
+    <td valign="top" align="center">p4 unshelve -n</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Restores the shelved files from changelist 410 to the default
+changelist.</p>
+<pre>
+&lt;p4junshelve
+    fromchangelist=&quot;410&quot;
+/&gt;
+</pre>
+<p>Restores the shelved files from changelist 410 to the changelist
+810.</p>
+<pre>
+&lt;p4junshelve
+    fromchangelist=&quot;410&quot;
+    tochangelist=&quot;810&quot;
+/&gt;
+</pre>
+<p>Force unshelve of the shelved files in the specified changelist
+410.</p>
+<pre>
+&lt;p4junshelve
+    forceunshelve=&quot;true&quot;
+    fromchangelist=&quot;410&quot;
+    tochangelist=&quot;410&quot;
+/&gt;
+</pre>
+
+<hr>
+<h2><a name="changes">Change History</a></h2>
+<table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+    <td valign="top">Sept 2010</td>
+    <td valign="top">V1.0</td>
+    <td valign="top">Initial Release</td>
+  </tr>
+</table>
+</body>
+</html>
